@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thymeleaf</title>
+</head>
+<body>
+<div>
+    <h1>Variable Expressions</h1>
+    <div>
+        <p> Hello <span th:text="${username}"></span></p>
+    </div>
+    <hr>
+
+    <h1>Selection Variable Expressions</h1>
+    <div th:object="${post}">
+        <h3 th:text="*{title}"></h3>
+        <p th:text="*{excerpt}"></p>
+        <p th:text="*{createdDate}"></p>
+    </div>
+    <hr>
+
+    <h1 th:text="#{greeting.title}"></h1>
+    <p th:text="#{greeting.text(${username})}"></p>
+    <hr>
+
+    <h1>Link URL Expressions</h1>
+    <a th:href="@{https://google.com}">Absolute URL to Google</a>
+    <a th:href="@{/comments}">Context-relative URL</a>
+    <a th:href="@{~/posts}">Server-relative URL</a>
+    <a th:href="@{//google.com}">Protocol-relative URL</a>
+    <a th:href="@{/users/__${userId}__/posts}">Variables Inside URL</a>
+    <a th:href="@{/posts(page=${pageNumber})}"></a>
+    <hr>
+
+    <h1>Constructing Texts</h1>
+    <span th:text="'Hello' + ${username} + '! How are you today?'"></span><br>
+    <span th:text="|Hello ${username}! How are you today?|"></span><br>
+    <span th:text="'Combined: ' + |Hello ${username}! How are you today?|"></span>
+    <hr>
+
+    <h1>Arithmetic Operations, Comparators and Equality</h1>
+    <div th:with="totalCost=${perPrice} * ${totalCount}">
+        <span th:text="|Total Cost: ${totalCost}|"></span>
+    </div>
+    <br>
+    <div th:if="${currentProfile} == 'DEV'">
+        <span>Wubba Lubba Dub Dub</span>
+    </div>
+    <hr>
+
+    <h1>th:if, th:unless, th:switch, th:case </h1>
+    <p th:if="${username} neq null">
+        <span th:text="|User exists with name ${username}|"></span>
+    </p>
+    <div th:switch="${currentProfile}">
+        <p th:case="'DEV'">Dev profile.</p>
+        <p th:case="'PROD'">Prod profile.</p>
+    </div>
+    <hr>
+
+    <h1>Loops with th:each</h1>
+    <ul th:each="post : ${posts}">
+        <li th:object="${post}" th:text="|*{title} - *{excerpt}|"></li>
+    </ul>
+    <hr>
+
+    <h1>Ternary and Elvis Operator</h1>
+    <div th:text="${username == null} ? 'Anonymous' : ${username}">
+    </div>
+    <br>
+    <div th:text="${username}?: 'Anonymous'">
+    </div>
+    <hr>
+
+    <h1>th:* Attributes</h1>
+    <img th:src="@{/bernard-black.jpg}" width="250px"/>
+    <br>
+    <input type="button" th:value="#{save_button}">
+    <br>
+    <input type="checkbox" th:checked="${isUserActive}">
+    <hr>
+
+    <h1>General Attribute Modification</h1>
+    <input type="button" th:attr="value='Click me!'"/>
+    <br>
+    <div th:classappend="${isMessageNew}? 'notification'" th:text="${message}">
+    </div>
+    <hr>
+
+    <h1>Local Variables</h1>
+    <div th:object="${post}">
+        <h3 th:text="*{title}"></h3>
+        <p th:text="*{excerpt}"></p>
+    </div>
+    <br>
+    <div th:with="featuringPost=${posts[2]}">
+        <p th:text="|Post of the week: ${featuringPost.title}|"></p>
+    </div>
+    <hr>
+
+    <h1>Thymeleaf Comment Blocks</h1>
+    <!-- Users can see me! -->
+    <!--/* I'm invisible! */-->
+    <hr>
+
+    <h1>Expression Inlining</h1>
+    <p> Hello <span th:text="${username}"></span></p>
+    <p th:text="|Hello ${username}|"> </p>
+    <p th:text="'Hello ' + ${username}"></p>
+    <p>Hello [[${username}]]</p>
+    <hr>
+
+    <h1>#locale</h1>
+    <p th:text="${#locale}"></p>
+
+    <h1>#messages</h1>
+    <p th:text="${#messages.msg('ext_msg')}"></p>
+
+    <h1>#dates</h1>
+    <p th:text="${#dates.createNow()}"></p>
+
+    <h1>#strings</h1>
+    <p th:if="${#strings.equals(currentProfile, 'DEV')}">Dev Profile</p>
+
+    <h1>#lists</h1>
+    <p th:if="${#lists.size(draftPosts) == 0}">No drafts.</p>
+</div>
+</body>
+</html>
